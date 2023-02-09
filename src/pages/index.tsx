@@ -1,5 +1,6 @@
 import { authOptions } from './api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth';
+import { useSession } from 'next-auth/react';
 import prisma from '../lib/prisma';
 
 import NewBudget from '../components/new-budget';
@@ -7,8 +8,22 @@ import Layout from '../components/layout';
 import Head from 'next/head';
 import NextLink from 'next/link';
 
-import { Box, Card, CardBody, Divider, Flex, Heading, Spacer, Stack, Text, } from '@chakra-ui/react';
-import { useSession } from 'next-auth/react';
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CircularProgress,
+  CircularProgressLabel,
+  Flex,
+  Heading,
+  Skeleton,
+  Spacer,
+  Stack,
+  Text,
+  useColorMode,
+} from '@chakra-ui/react';
+import { GetServerSidePropsContext } from 'next';
 
 interface Budget {
   id: string,
@@ -22,7 +37,7 @@ interface Props {
   budgets: Budget[]
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerSession(context.req, context.res, authOptions);
 
   if (!session || !session?.user?.email)
@@ -42,6 +57,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home({ budgets }: Props) {
+
   const { status } = useSession();
 
   return (
@@ -60,7 +76,14 @@ export default function Home({ budgets }: Props) {
           <NewBudget />
         </Flex>
         :
-        <Text mt='8'>Please sign in to continue</Text>
+        <>
+        <Text mt='8'>Please sign in to continue...</Text>
+          <Stack mt='4'>
+            <Skeleton height='12vh'/>
+            <Skeleton height='12vh'/>
+            <Skeleton height='12vh'/>
+          </Stack>
+        </>
         }
         <Stack mt='4' spacing='4'>
           {Object.values(budgets).map((budget) => (
@@ -73,24 +96,16 @@ export default function Home({ budgets }: Props) {
                       <Text fontSize='sm' color='grey'>{budget.desc}</Text>
                     </Box>
                     <Spacer />
-                    <Box textAlign='center'>
-                      <Text
-                        as='b'
-                        color='blue.600'
-                        fontSize='md'
-                        fontFamily='monospace'
-                      >
-                        ${budget.expend}
-                      </Text>
-                      <Divider />
-                      <Text
-                        fontSize='md'
-                        fontWeight='medium'
-                        fontFamily='monospace'
-                      >
-                        ${budget.budget}
-                      </Text>
-                    </Box>
+                    <CircularProgress
+                      thickness='8'
+                      min={0}
+                      max={budget.budget}
+                      value={budget.expend}
+                    >
+                      <CircularProgressLabel>
+                        {(budget.expend / budget.budget * 100).toFixed(0)}%
+                      </CircularProgressLabel>
+                    </CircularProgress>
                   </Flex>
                 </CardBody>
               </Card>

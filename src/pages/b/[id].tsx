@@ -5,7 +5,7 @@ import prisma from '@/src/lib/prisma';
 
 import Layout from '@/src/components/layout';
 import NewExpense from '@/src/components/new-expense';
-import { Box, Button, ButtonGroup, Card, CardBody, Divider, Flex, Heading, Spacer, Stack, Stat, StatGroup, StatHelpText, StatLabel, StatNumber, Text, Tooltip } from '@chakra-ui/react';
+import { Box, Button, ButtonGroup, Card, CardBody, Divider, Flex, Heading, HStack, Progress, Spacer, Stack, Stat, StatGroup, StatHelpText, StatLabel, StatNumber, Text, Tooltip } from '@chakra-ui/react';
 import { ArrowBackIcon, SettingsIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/router';
 
@@ -79,20 +79,43 @@ export default function Budget({ budget }: { budget: Budget }) {
       <Box mt='4' mb='4' alignSelf='center'>
         <Heading size='lg'>{budget.name}</Heading>
         <Text size='sm' color='grey'>{budget.desc}</Text>
-        <StatGroup mt='4'>
-          <Stat>
+        <StatGroup mt='4' as={Flex}>
+          <Stat mr='1'>
             <StatLabel>Budget</StatLabel>
-            <StatNumber>${budget.budget}</StatNumber>
+            <StatNumber>${budget.budget.toFixed(2)}</StatNumber>
           </Stat>
-          <Stat>
+          <Spacer />
+          <Stat mr='1'>
             <StatLabel>Expenditure</StatLabel>
-            <StatNumber color='orange'>${budget.expend}</StatNumber>
+            <StatNumber color='orange'>${budget.expend.toFixed(2)}</StatNumber>
           </Stat>
-          <Stat>
+          <Spacer />
+          <Stat mr='1'>
             <StatLabel>Remaining</StatLabel>
-            <StatNumber color='green'>${budget.budget - budget.expend}</StatNumber>
+            <StatNumber color='green'>${
+              (budget.budget - budget.expend).toFixed(2)
+            }</StatNumber>
           </Stat>
+          <Spacer />
         </StatGroup>
+        <Flex alignItems='center' mt='2'>
+          <Box width='100%'>
+            <Progress
+              colorScheme='blue'
+              size='xs'
+              borderRadius='lg'
+              min={0}
+              max={budget.budget}
+              value={budget.expend}
+            />
+          </Box>
+          <Text ml='3' fontWeight='medium'>
+            {(100 * (budget.expend/budget.budget)).toFixed()}%
+          </Text>
+          <Text ml='1' fontWeight='medium'>
+            used
+          </Text>
+        </Flex>
       </Box>
 
       <Stack mt='4'>
