@@ -1,0 +1,35 @@
+
+GET /api/budgets
+ - return all budget objects of an user 
+ - payload: {
+      user: id
+  }
+
+POST /api/budgets
+ - create a budget object for an user 
+ - payload: {
+      user: id
+      budget: {
+        ...
+      }
+  }
+
+# should i do /budgets/expenses or /expenses
+
+GET /api/expenses
+  - return the expenses of a budget object
+  - payload: {
+      user: id
+  }
+
+POST /api/expense
+  - 
+
+POST /api/budget?user=<id>
+ - create a budget for an user
+ - payload: { user: id, budget: { ... }}
+
+ - get: return budgets for
+ - put: update budtet attributes
+
+/api/bu
