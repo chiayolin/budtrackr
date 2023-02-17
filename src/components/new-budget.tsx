@@ -1,4 +1,3 @@
-import { AddIcon, SmallAddIcon } from '@chakra-ui/icons';
 import {
   FormControl,
   FormLabel,
@@ -26,7 +25,6 @@ import {
 
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-
 
 export default function NewBudget() {
   const router = useRouter();
@@ -87,7 +85,7 @@ export default function NewBudget() {
                 <Input
                   required  
                   name='name'
-                  value={values.name}
+                  value={values.name + 'hello'}
                   placeholder='required'
                   onChange={formChangeHandler}
                 />
@@ -108,8 +106,7 @@ export default function NewBudget() {
                 <InputGroup>
                   <InputLeftAddon
                     pointerEvents='none'
-                    children='$'
-                  />
+                  >$</InputLeftAddon>
                   <NumberInput
                     w='100%'
                     precision={2}

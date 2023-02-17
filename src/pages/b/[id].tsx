@@ -1,15 +1,17 @@
-import { authOptions } from '@/src/pages/api/auth/[...nextauth]';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { GetServerSidePropsContext } from 'next';
 import { getServerSession } from 'next-auth';
-import prisma from '@/src/lib/prisma';
-
-import Layout from '@/src/components/layout';
-import NewExpense from '@/src/components/new-expense';
-import { Box, Button, ButtonGroup, Card, CardBody, Divider, Flex, Heading, HStack, Progress, Spacer, Stack, Stat, StatGroup, StatHelpText, StatLabel, StatNumber, Text, Tooltip } from '@chakra-ui/react';
-import { ArrowBackIcon, SettingsIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/router';
-
+import prisma from '@/lib/prisma';
 import moment from 'moment';
+
+import {
+  Box, Button, ButtonGroup, Card, CardBody, Flex, Heading, Progress, Spacer,
+  Stack, Stat, StatGroup, StatLabel, StatNumber, Text, Tooltip
+} from '@chakra-ui/react';
+import { ArrowBackIcon, SettingsIcon } from '@chakra-ui/icons';
+import NewExpense from '@/components/new-expense';
+import Layout from '@/components/layout';
 
 interface Expense {
   id: string,

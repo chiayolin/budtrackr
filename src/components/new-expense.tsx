@@ -27,8 +27,12 @@ import {
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+interface Props {
+  budgetId: string
+}
 
-export default function NewExpense({ budgetId }) {
+
+export default function NewExpense({ budgetId }: Props) {
   const router = useRouter();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -121,9 +125,8 @@ export default function NewExpense({ budgetId }) {
                 <FormLabel>Amount</FormLabel>
                 <InputGroup>
                   <InputLeftAddon
-                    pointerEvents='none'
-                    children='$'
-                  />
+                    pointerEvents='none'>$
+                  </InputLeftAddon>
                   <NumberInput
                     w='100%'
                     precision={2}

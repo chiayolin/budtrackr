@@ -1,10 +1,10 @@
-import { authOptions } from './api/auth/[...nextauth]';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth';
 import { useSession } from 'next-auth/react';
-import prisma from '../lib/prisma';
+import prisma from '@/lib/prisma';
 
-import NewBudget from '../components/new-budget';
-import Layout from '../components/layout';
+import NewBudget from '@/components/new-budget';
+import Layout from '@/components/layout';
 import Head from 'next/head';
 import NextLink from 'next/link';
 
